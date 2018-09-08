@@ -2,6 +2,8 @@ package learn.jacls.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 /**
  * Created by FanXingGuo on 2018/9/7.
  */
@@ -12,19 +14,23 @@ public class Demo1 {
     private Frame frame;
     private Button button;
     private TextField textField;
+    private TextArea textArea;
 
     Demo1(){
         init();
     }
     public void init(){
         frame =new Frame("提示");
-        button=new Button("我是一个按钮");
+        button=new Button("转到");
         textField =new TextField(20);
+        textArea =new TextArea(10,30);
 
-        frame.setBounds(100,100,200,200);
+
+        frame.setBounds(100,100,300,400);
         frame.setLayout(new FlowLayout());
-        frame.add(button);
         frame.add(textField);
+        frame.add(button);
+        frame.add(textArea);
 
         myEvn();
 
@@ -56,7 +62,7 @@ public class Demo1 {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                System.out.printf("鼠标点击"+count++);
+//                System.out.printf("鼠标点击"+count++);
             }
         });
 
@@ -78,16 +84,29 @@ public class Demo1 {
 //            }
 //        });
 
-        textField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-//                if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_ENTER){
-//                    System.out.println("ctrl+enter 按下");
+//        textField.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+////                if(e.isControlDown()&&e.getKeyCode()==KeyEvent.VK_ENTER){
+////                    System.out.println("ctrl+enter 按下");
+////                }
+//                int code=e.getKeyCode();
+//                if(!(code>=KeyEvent.VK_0&&code<=KeyEvent.VK_9)){
+//                    System.out.println("输入不合法");
+//                    e.consume();
 //                }
-                int code=e.getKeyCode();
-                if(!(code>=KeyEvent.VK_0&&code<=KeyEvent.VK_9)){
-                    System.out.println("输入不合法");
-                    e.consume();
+//            }
+//        });
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String st=textField.getText();
+                File file=new File(st);
+                if(file.exists()&&file.isDirectory()){
+                    String [] names=file.list();
+                    for (String name:names){
+                        textArea.append(name+"\r\n");
+                    }
                 }
             }
         });
